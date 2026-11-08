@@ -242,7 +242,7 @@ function renderProductionEligibility(input) {
     el.textContent = `비과세 요건 충족 · 월정액급여 ${won(eligibility.fixedPay)}원, 직전연도 총급여 ${won(eligibility.prevYearTotalPay)}원`;
   } else {
     el.className = 'eligibility bad';
-    el.textContent = `비과세 요건 미충족 — ${eligibility.reasons.join(' ')}`;
+    el.textContent = `비과세 요건 미충족: ${eligibility.reasons.join(' ')}`;
   }
 }
 
@@ -279,14 +279,32 @@ function deductionRows(month) {
       value: month.incomeTax,
       rate: daily ? '일당 6%·55% 공제' : foreign ? '19% 단일세율' : `간이세액 ${Math.round(state.ratio * 100)}%`,
       color: '--bar5',
+      // 중소기업 감면 전 금액. 감면이 있으면 원래 금액에 취소선을 긋고 감면 후 금액을 보여 준다.
+      before: month.reduction > 0 ? month.incomeTax + month.reduction : 0,
+      note: month.reduction > 0 ? '중소기업 감면' : '',
     },
     {
       name: '지방소득세',
       value: month.localTax,
       rate: '소득세 × 10%',
       color: '--bar6',
+      before: month.reduction > 0
+        ? (month.localBefore ?? Math.floor(((month.incomeTax + month.reduction) * data.localIncomeTaxRate) / 10) * 10)
+        : 0,
+      note: month.reduction > 0 ? '중소기업 감면' : '',
     },
   ];
+}
+
+function averageMonth(months) {
+  const avg = {};
+  for (const key of ['gross', 'nontax', 'pension', 'health', 'ltc', 'employment', 'incomeTax', 'localTax', 'reduction', 'totalDeduction', 'net']) {
+    avg[key] = months.reduce((acc, m) => acc + (Number(m[key]) || 0), 0) / months.length;
+  }
+  // 지방소득세의 감면 전 금액도 달마다 계산해 평균을 낸다
+  avg.localBefore = months.reduce((acc, m) => acc + Math.floor(((m.incomeTax + m.reduction) * data.localIncomeTaxRate) / 10) * 10, 0) / months.length;
+  avg.isAverage = true;
+  return avg;
 }
 
 function renderStack(month) {
@@ -314,9 +332,15 @@ function renderBreakdown(month) {
   if (month.nontax > 0) {
     html += `<tr class="sub"><td>비과세 (세전에서 제외)</td><td>-${won(month.nontax)}원</td></tr>`;
   }
-  html += rows.map((row) => `<tr><td><span class="dot" style="background:var(${row.color})"></span>${row.name}<span class="rate">${row.rate}</span></td><td>${won(row.value)}원</td></tr>`).join('');
-  if (month.reduction > 0) {
-    html += `<tr class="sub"><td>중소기업 취업자 감면</td><td>-${won(month.reduction)}원</td></tr>`;
+  html += rows.map((row) => {
+    const note = row.note ? `<span class="cut-note">${row.note}</span>` : '';
+    const value = row.before > row.value
+      ? `<s class="was">${won(row.before)}원</s>${won(row.value)}원`
+      : `${won(row.value)}원`;
+    return `<tr><td><span class="dot" style="background:var(${row.color})"></span>${row.name}<span class="rate">${row.rate}</span>${note}</td><td>${value}</td></tr>`;
+  }).join('');
+  if (month.isAverage) {
+    html = `<tr class="sub"><td colspan="2" class="avg-note">달마다 금액이 달라 12개월 평균으로 보여 줍니다. 달별 금액은 12개월 표에서 볼 수 있습니다.</td></tr>` + html;
   }
   html += `<tr class="total"><td>공제 합계</td><td>${won(month.totalDeduction)}원</td></tr>`;
   html += `<tr class="net"><td>월 실수령액</td><td>${won(month.net)}원</td></tr>`;
@@ -399,7 +423,9 @@ function render() {
     state.lastRev = { net: state.amount, annual: inverseInfo.annualGross };
   }
   const summary = output.summary;
-  const monthForDisplay = output.months[0];
+  // 달마다 금액이 다르면(중소기업 감면 한도 소진, 7월 연금 상한 변경 등) 표와 막대는 12개월 평균으로 보여 준다.
+  // 첫 달 값을 보여 주면 감면이 매달 계속되는 것처럼 보이고, 위의 연평균 실수령액과도 맞지 않는다.
+  const monthForDisplay = summary.varies ? averageMonth(output.months) : output.months[0];
 
   if (state.mode === 'fwd') {
     $('r-k').textContent = daily ? '월 예상 실수령액 (일당 기준)' : '월 예상 실수령액 (연평균)';
@@ -423,9 +449,13 @@ function render() {
     const reducedMonth = output.months.find((month) => month.reduction > 0);
     const normalMonth = output.months.find((month) => month.reduction === 0 && month.month >= state.sme.startMonth);
     if (state.sme.enabled && reducedMonth) {
-      variesEl.innerHTML = normalMonth
-        ? segs([`감면 적용 중 월 ${won(reducedMonth.net)}원`, `한도 소진 후 월 ${won(normalMonth.net)}원`, `연평균 ${won(summary.averageNet)}원`], ' / ')
-        : segs([`감면 적용 중 월 ${won(reducedMonth.net)}원`, `연평균 ${won(summary.averageNet)}원`], ' / ');
+      // 감면이 어느 달에 얼마씩 들어가는지 보여 준다. 예: 1월 714,500원 · 2월 714,500원 · 3월 571,000원
+      const plan = output.months.filter((month) => month.reduction > 0);
+      const total = plan.reduce((acc, month) => acc + month.reduction, 0);
+      const last = plan[plan.length - 1].month;
+      const schedule = segs(plan.map((month) => `${month.month}월 ${won(month.reduction)}원`), ' · ');
+      variesEl.innerHTML = `<div>중소기업 감면 ${won(total)}원: ${schedule}</div>`
+        + `<div class="varies-sub">${last < 12 ? `${last + 1}월부터는 감면 없이 월 ${won(normalMonth ? normalMonth.net : output.months[11].net)}원을 받습니다.` : '연말까지 매달 감면이 적용됩니다.'}</div>`;
     } else {
       variesEl.innerHTML = segs([`1월 ${won(output.months[0].net)}원`, `12월 ${won(output.months[11].net)}원`, `연평균 ${won(summary.averageNet)}원`], ' / ');
     }
