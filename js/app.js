@@ -725,7 +725,6 @@ async function boot() {
   }
 
   $('table-badge').textContent = `간이세액표 ${data.simpleTable.effective} 시행`;
-  $('data-source').textContent = `데이터: data/${DATA_YEAR}.json (기준일 ${data.effective}) · 간이세액표 ${data.simpleTable.effective} 시행`;
 
   buildNontaxGrid();
   buildSmeStart();

@@ -102,7 +102,7 @@ table.months tr.disc td{color:var(--accent)}
 .notes:empty{display:none}
 footer{margin-top:22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--sub);font-size:12px}
 .pills{display:flex;gap:8px;flex-wrap:wrap}
-.counter{display:block;height:20px;border-radius:4px}
+.counter{display:block;margin-left:auto;height:20px;border-radius:4px}
 .head-right{display:flex;align-items:center;gap:8px;margin-left:auto}
 .theme-seg{display:inline-flex;height:34px;padding:2px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
 .theme-seg button{display:inline-flex;align-items:center;justify-content:center;width:28px;border:0;border-radius:999px;background:transparent;color:var(--sub);cursor:pointer;padding:0}
