@@ -1,0 +1,10 @@
+{
+  "name": "k-salary-net",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "2026년 연봉 ↔ 실수령액 계산기 (정적 GitHub Pages 사이트)",
+  "scripts": {
+    "test": "node --test tests/"
+  }
+}

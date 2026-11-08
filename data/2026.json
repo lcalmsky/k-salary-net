@@ -1,0 +1,202 @@
+{
+  "year": 2026,
+  "effective": "2026-01-01",
+  "jurisdiction": "KR",
+  "shortTime": {
+    "minimumWageHourly": 10320,
+    "monthlyHours": 60,
+    "source": "https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=2100000262710",
+    "note": "2026년 최저임금 시간급 10,320원(고용노동부고시 제2025-47호). 월 소정근로 60시간 미만 단시간근로자는 국민연금·건강보험·고용보험 적용 제외(국민연금법 시행령 제2조, 국민건강보험법 시행령 제9조, 고용보험법 시행령 제3조). 월 세전급여가 최저임금 × 60시간(619,200원) 미만이면 60시간 미만 근로로 보고 4대보험을 공제하지 않는다."
+  },
+  "pension": {
+    "employeeRate": 0.0475,
+    "ageExemptFrom": 60,
+    "caps": [
+      {
+        "fromMonth": 1,
+        "toMonth": 6,
+        "min": 400000,
+        "max": 6370000,
+        "source": "https://m.blog.naver.com/rbeod1/224361663340"
+      },
+      {
+        "fromMonth": 7,
+        "toMonth": 12,
+        "min": 410000,
+        "max": 6590000,
+        "source": "https://nps.or.kr/comm/quick/getOHAH0011P0.do"
+      }
+    ],
+    "source": "https://nps.or.kr/eng/ntnlpnsplan/cntb/getOHAI0013M0.do",
+    "ageSource": "https://bigcase.ai/law/%EA%B5%AD%EB%AF%BC%EC%97%B0%EA%B8%88%EB%B2%95?refDate=20261108",
+    "note": "총 9.5%, 근로자 4.75%. 1~6월 상한 637만/하한 40만은 2차 자료로만 확인했고, 7월부터 상한 659만/하한 41만."
+  },
+  "health": {
+    "employeeRate": 0.03595,
+    "totalRate": 0.0719,
+    "source": "https://edi.nhis.or.kr/portal/images/popup/20251204_pop01longdesc.html",
+    "note": "직장가입자 총 7.19%, 가입자 3.595%."
+  },
+  "ltc": {
+    "totalRate": 0.009448,
+    "healthRate": 0.0719,
+    "source": "https://edi.nhis.or.kr/portal/images/popup/20251204_pop01longdesc.html",
+    "note": "장기요양보험료 = 건강보험료 × 0.9448/7.19."
+  },
+  "employment": {
+    "employeeRate": 0.009,
+    "age65NewHireExempt": true,
+    "source": "https://lawplayer.com/kr/article/009589/001300",
+    "note": "실업급여 보험료율 총 1.8%(근로자 0.9%). 65세 이후 신규 고용은 실업급여·육아휴직급여 미적용."
+  },
+  "incomeTax": {
+    "personalDeduction": 1500000,
+    "brackets": [
+      { "upTo": 14000000, "rate": 0.06, "deduction": 0 },
+      { "upTo": 50000000, "rate": 0.15, "deduction": 1260000 },
+      { "upTo": 88000000, "rate": 0.24, "deduction": 5760000 },
+      { "upTo": 150000000, "rate": 0.35, "deduction": 15440000 },
+      { "upTo": 300000000, "rate": 0.38, "deduction": 19940000 },
+      { "upTo": 500000000, "rate": 0.4, "deduction": 25940000 },
+      { "upTo": 1000000000, "rate": 0.42, "deduction": 35940000 },
+      { "upTo": null, "rate": 0.45, "deduction": 65940000 }
+    ],
+    "earnedIncomeDeduction": {
+      "cap": 20000000,
+      "segments": [
+        { "upTo": 5000000, "from": 0, "base": 0, "rate": 0.7 },
+        { "upTo": 15000000, "from": 5000000, "base": 3500000, "rate": 0.4 },
+        { "upTo": 45000000, "from": 15000000, "base": 7500000, "rate": 0.15 },
+        { "upTo": 100000000, "from": 45000000, "base": 12000000, "rate": 0.05 },
+        { "upTo": null, "from": 100000000, "base": 14750000, "rate": 0.02 }
+      ]
+    },
+    "childCreditAnnual": {
+      "one": 250000,
+      "two": 550000,
+      "perExtra": 400000
+    },
+    "source": "https://law.go.kr/LSW/lsLinkCommonInfo.do?ancYnChk=&chrClsCd=010202&lsJoLnkSeq=1019372661",
+    "earnedIncomeDeductionSource": "https://lawplayer.com/kr/article/001565/004700",
+    "personalDeductionSource": "https://lawplayer.com/kr/article/001565/005000",
+    "note": "월 원천징수는 간이세액표를 쓰고, 위 기본세율·근로소득공제·인적공제는 연말정산·외국인·일용 비교용으로 싣는다."
+  },
+  "simpleTable": {
+    "file": "simple-tax-2026-03.json",
+    "effective": "2026-03-01",
+    "familyMax": 11,
+    "childDeduction": {
+      "one": 20830,
+      "two": 45830,
+      "perExtra": 33330,
+      "source": "https://m.blog.naver.com/yesformstory/224227794564"
+    },
+    "ratios": [0.8, 1, 1.2],
+    "source": "https://nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=6426&cntntsId=7862",
+    "note": "홈택스 근로소득 간이세액표 2026-03-01 시행분. 자녀세액공제 개정(1명 20,830원·2명 45,830원·추가 1명당 33,330원)을 반영했다.",
+    "over10m": [
+      { "min": 10000000, "max": 14000000, "from": 10000000, "base": 25000, "rate": 0.98, "mult": 0.35 },
+      { "min": 14000000, "max": 28000000, "from": 14000000, "base": 1397000, "rate": 0.98, "mult": 0.38 },
+      { "min": 28000000, "max": 30000000, "from": 28000000, "base": 6610600, "rate": 0.98, "mult": 0.4 },
+      { "min": 30000000, "max": 45000000, "from": 30000000, "base": 7394600, "rate": 1, "mult": 0.4 },
+      { "min": 45000000, "max": 87000000, "from": 45000000, "base": 13394600, "rate": 1, "mult": 0.42 },
+      { "min": 87000000, "max": null, "from": 87000000, "base": 31034600, "rate": 1, "mult": 0.45 }
+    ]
+  },
+  "nontax": {
+    "meal": {
+      "cap": 200000,
+      "source": "https://lawplayer.com/kr/article/001565/001200",
+      "note": "소득세법 §12③러목, 월 20만원 이하 식사대."
+    },
+    "car": {
+      "cap": 200000,
+      "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9?refDate=20261108",
+      "note": "소득세법 시행령 §12 제3호, 자가운전보조금 월 20만원."
+    },
+    "childcare": {
+      "capPerKid": 200000,
+      "maxKids": 6,
+      "maxAge": 6,
+      "source": "https://lawplayer.com/kr/article/001565/001200",
+      "note": "소득세법 §12③머목, 과세기간 개시일 기준 6세 이하 자녀 1명당 월 20만원."
+    },
+    "research": {
+      "cap": 200000,
+      "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9?refDate=20261108",
+      "note": "소득세법 시행령 §12 제12호, 연구보조비·연구활동비 월 20만원."
+    },
+    "reporter": {
+      "cap": 200000,
+      "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9?refDate=20261108",
+      "note": "소득세법 시행령 §12 제14호, 취재수당 월 20만원."
+    },
+    "remote": {
+      "cap": 200000,
+      "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9?refDate=20261108",
+      "note": "소득세법 시행령 §12 제15호, 벽지수당 월 20만원."
+    },
+    "seafarer": {
+      "cap": 200000,
+      "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9?refDate=20261108",
+      "note": "소득세법 시행령 §12 제10호, 승선수당 월 20만원."
+    },
+    "relocation": {
+      "cap": 200000,
+      "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9?refDate=20261108",
+      "note": "소득세법 시행령 §12 제17호, 공공기관 이전지원금 월 20만원."
+    },
+    "overseas": {
+      "cap": 1000000,
+      "specialCap": 5000000,
+      "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9?refDate=20261108",
+      "note": "소득세법 시행령 §16, 일반 월 100만원, 원양어선·외항선·국외 건설현장 월 500만원."
+    },
+    "productionOvertime": {
+      "annualCap": 2400000,
+      "monthlyFixedPayCap": 2600000,
+      "prevYearTotalPayCap": 37000000,
+      "source": "https://lbox.kr/statute/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9/%EB%B3%B8%EB%AC%B8%20%3E%20%EC%A0%9C2%EC%9E%A5%20%3E%20%EC%A0%9C1%EC%A0%88%20%3E%20%EC%A0%9C17%EC%A1%B0",
+      "note": "소득세법 시행령 §17. 월정액급여 260만원·직전 과세기간 총급여 3,700만원 이하, 연 240만원 한도."
+    }
+  },
+  "smeReduction": {
+    "youth": {
+      "rate": 0.9,
+      "years": 5,
+      "ageMin": 15,
+      "ageMax": 34,
+      "militaryServiceSubtractYears": 6
+    },
+    "other": {
+      "rate": 0.7,
+      "years": 3,
+      "targets": ["60세 이상", "장애인", "경력단절 근로자"]
+    },
+    "annualCap": 2000000,
+    "hireDeadline": "2026-12-31",
+    "source": "https://nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40632",
+    "lawSource": "https://casenote.kr/%EB%B2%95%EB%A0%B9/%EC%A1%B0%EC%84%B8%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95/%EC%A0%9C30%EC%A1%B0",
+    "note": "조특법 §30. 청년 90%·5년, 60세 이상·장애인·경력단절 70%·3년, 과세기간별 200만원 한도, 2026-12-31까지 취업."
+  },
+  "daily": {
+    "dailyDeduction": 150000,
+    "rate": 0.06,
+    "creditRate": 0.55,
+    "minTax": 1000,
+    "source": "https://bigcase.ai/law/%EC%86%8C%EB%93%9D%EC%84%B8%EB%B2%95?refDate=20261108",
+    "note": "소득세법 §47②·§129①4·§59③·§86①1. 1일 15만원 공제, 6% 세율, 산출세액 55% 공제, 1,000원 미만 소액부징수."
+  },
+  "foreignFlat": {
+    "rate": 0.19,
+    "years": 20,
+    "deadline": "2026-12-31",
+    "source": "https://www.law.go.kr/LSW//lsLawLinkInfo.do?lsJoLnkSeq=1001022464&lsId=001584&chrClsCd=010202&print=print",
+    "note": "조특법 §18의2. 2026-12-31 이전 국내 최초 근로 시작, 20년, 19%. 단일세율 선택 시 각종 비과세·소득공제·세액공제·감면 배제."
+  },
+  "localIncomeTaxRate": 0.1,
+  "sources": {
+    "localIncomeTax": "https://lawplayer.com/kr/act/001649/section/chapter-8.section-2",
+    "inquiryRatio": "https://lawplayer.com/kr/article/003956/019400"
+  }
+}
