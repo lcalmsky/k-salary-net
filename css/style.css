@@ -124,3 +124,4 @@ footer{margin-top:22px;display:flex;justify-content:space-between;align-items:ce
   .row{grid-template-columns:1fr}
   .result .big{font-size:28px}
 }
+.family-hint{grid-column:1/-1;margin-top:-2px}

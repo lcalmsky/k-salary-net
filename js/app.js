@@ -487,8 +487,15 @@ document.addEventListener('click', (event) => {
   if (step) {
     const key = step.dataset.step;
     const delta = Number(step.dataset.delta) || 0;
-    if (key === 'family') state.family = Math.max(1, state.family + delta);
-    if (key === 'kids') state.kids = Math.max(0, state.kids + delta);
+    // 8~20세 자녀도 부양가족에 포함되므로 자녀 수는 부양가족 수 − 1(본인)을 넘을 수 없다.
+    if (key === 'family') {
+      state.family = Math.max(1, state.family + delta);
+      state.kids = Math.min(state.kids, state.family - 1);
+    }
+    if (key === 'kids') {
+      state.kids = Math.max(0, state.kids + delta);
+      state.family = Math.max(state.family, state.kids + 1);
+    }
     $('family').textContent = state.family;
     $('kids').textContent = state.kids;
     render();
